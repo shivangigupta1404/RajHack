@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from sfg.forms import SignUpForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 import json
 from sfg.feeds import *
@@ -63,6 +64,7 @@ def signup(request):
 
 #..................................................
 
+@login_required
 def transaction(request):
 	if request.method == 'POST':
 	    data = request.POST.get("data")   
