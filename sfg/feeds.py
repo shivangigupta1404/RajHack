@@ -16,28 +16,27 @@ class Block:
 
 
 class Blockchain:
-  def __init__(self):
-    chain = [create_genesis_block()]
-
   def create_genesis_block(self):
     # Manually construct a block with index zero and arbitrary previous hash
-    return Block(0, date.datetime.now(), "Genesis Block", "0")
+    return Block(0,date.datetime.now(),"Genesis Block","0")
 
-  @staticmethod
-  def last_block():
-    return chain[-1]
+  def __init__(self):
+    self.chain = [self.create_genesis_block()]
 
-  @staticmethod
-  def get_next_block(last_block):
+  def last_block(self):
+    return self.chain[-1]
+
+  def get_next_block(self,last_block):
     #change implementation
     this_index = last_block.index + 1
     this_timestamp = date.datetime.now()
     this_data = "Hey! I'm block " + str(this_index)
     return Block(this_index, this_timestamp, this_data, last_block.hash)
   
-  @staticmethod
-  def add_block(data):
-    block_to_add=get_next_block(chain[-1])
-    chain.append(block_to_add)
+  def add_block(self,data):
+    block_to_add=self.get_next_block(self.chain[-1])
+    self.chain.append(block_to_add)
     print "Block #{} has been added to the blockchain!".format(block_to_add.index)
     print "Hash: {}\n".format(block_to_add.hash)
+
+blockchain=Blockchain()

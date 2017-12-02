@@ -10,8 +10,8 @@ miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
 def transaction(request):
 	if request.method == 'POST':
 	    data = request.POST.get("data")   
-	    Blockchain.add_block(data)
+	    blockchain.add_block(data)
 
 	    print "New transaction"+data
-	    print Blockchain.chain
+	    print blockchain.chain
 	return render(request,"sfg/index.html",{})
