@@ -1,25 +1,7 @@
 import hashlib as hasher
 import datetime as date
+from .models import *
 
-class Block:
-  def __init__(self, index, timestamp, data, previous_hash):
-    self.index = index
-    self.timestamp = timestamp
-    self.user = data[0]
-    self.title= data[1]
-    self.name = data[2]
-    self.age  = data[3]
-    self.sex  = data[4]   
-    self.others =data[5]
-    self.image  = data[6]
-    self.previous_hash = previous_hash
-    self.hash = self.hash_block()
-  
-  def hash_block(self):
-    sha = hasher.sha256()
-    a= str(self.index)+str(self.timestamp)+str(self.user)+ str(self.title)+str(self.name)+str(self.age)+str(self.sex)+str(self.others) + str(self.previous_hash)
-    sha.update(a.encode())
-    return sha.hexdigest()
 
 class Blockchain:
   def create_genesis_block(self):
