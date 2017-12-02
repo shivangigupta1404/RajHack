@@ -35,7 +35,7 @@ def login_next(request):
         try:
             del request.session['username']
         except KeyError:
-            return render(request, 'login.html', {'login_message' : 'Invalid Username or Password'})
+            return render(request, 'sfg/login.html', {'login_message' : 'Invalid Username or Password'})
         return HttpResponseRedirect('/sfg/')
 
 def log_end(request):
