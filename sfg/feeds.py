@@ -11,31 +11,31 @@ class Block:
   
   def hash_block(self):
     sha = hasher.sha256()
-    sha.update(str(self.index) + str(self.timestamp) + str(self.data) + str(self.previous_hash))
+    a= str(self.index) + str(self.timestamp) + str(self.data) + str(self.previous_hash)
+    sha.update(a.encode())
     return sha.hexdigest()
 
-
 class Blockchain:
-  def __init__(self):
-    chain = [create_genesis_block()]
-
-
-  def create_genesis_block():
-    # Manually construct a block with index zero and arbitrary previous hash
+  def create_genesis_block(self):
     return Block(0, date.datetime.now(), "Genesis Block", "0")
 
-  def last_block():
-    return blockchain[-1]
+  def __init__(self):
+    self.chain = [self.create_genesis_block()]
 
-  def add_block():
-    block_to_add=get_next_block(last_block())
-    blockchain.append(block_to_add)
-    print "Block #{} has been added to the blockchain!".format(block_to_add.index)
-    print "Hash: {}\n".format(block_to_add.hash)
+  def last_block(self):
+    return self.chain[-1]
 
-  def get_next_block(last_block):
-    #change implementation
+  def get_next_block(self,last_block):
     this_index = last_block.index + 1
     this_timestamp = date.datetime.now()
     this_data = "Hey! I'm block " + str(this_index)
     return Block(this_index, this_timestamp, this_data, last_block.hash)
+
+  def add_block(self,data):
+    block_to_add=self.get_next_block(self.last_block())
+    self.chain.append(block_to_add)
+    print ("Block #{} has been added to the blockchain!".format(block_to_add.index))
+    print ("Hash: {}\n".format(block_to_add.hash))
+
+blockchain= Blockchain()
+
