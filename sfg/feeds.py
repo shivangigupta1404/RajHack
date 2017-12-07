@@ -2,7 +2,6 @@ import hashlib as hasher
 import datetime as date
 from .models import *
 
-
 class Blockchain:
   def create_genesis_block(self):
     return Block(0, date.datetime.now(), "Genesis Block", "0")

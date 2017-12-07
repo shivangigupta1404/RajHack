@@ -1,19 +1,15 @@
+#from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render
-from django.http import HttpResponse
-from sfg.forms import SignUpForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import login_required
-
-import json
 from sfg.feeds import *
+from sfg.forms import SignUpForm
+import json
 
-miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
-
+#miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
 #..................Login..................
+
 def log(request):
     if 'username' in request.session:
         return HttpResponseRedirect('/sfg/home/')
@@ -64,12 +60,10 @@ def signup(request):
 
 #..................................................
 
-@login_required
 def transaction(request):
 	if request.method == 'POST':
 	    data = request.POST.get("data")   
 	    blockchain.add_block(data)
-
 	    print ("New transaction"+data)
 	    print (blockchain.chain)
-	return render(request,"sfg/index.html",{})
+	return render(request,"sfg/home.html",{})

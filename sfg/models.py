@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
-import base64
 from django.core.files.base import ContentFile
 import hashlib as hasher
+import base64
 
 class Block:
 	index=models.IntegerField()
