@@ -25,7 +25,7 @@ SECRET_KEY = 'vzx8)w&%0$frwrs5ed1s%1ay3rlz9qgiz^0qqett7#5r6@qlry'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -114,6 +114,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20480000
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from sfg.feeds import *
 from sfg.forms import SignUpForm
 import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 #miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
 #..................Login..................
@@ -59,10 +61,17 @@ def signup(request):
     return render(request, 'sfg/signup.html',context)
 
 #..................................................
+@csrf_exempt
+def apiAddBlock(request):
+    received_json_data=json.loads(request.body.decode("utf-8"))
+    #print received_json_data
+    print "User: " + received_json_data['user']
+    print "Image: " + received_json_data['image'][0:10]
+    return JsonResponse({"User":received_json_data['user'], "Image": received_json_data['image']})
 
 def transaction(request):
 	if request.method == 'POST':
-	    data = request.POST.get("data")   
+	    data = request.POST.get("data")
 	    blockchain.add_block(data)
 	    print ("New transaction"+data)
 	    print (blockchain.chain)
