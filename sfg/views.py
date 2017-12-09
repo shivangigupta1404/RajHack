@@ -10,8 +10,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import json,requests,uuid
+
 #miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
 #..................Login..................
+
 def ocr_file(filename, overlay=False, api_key='61a8cd0dbb88957', language='eng'):
     """ OCR.space API request with local file.
       Python3.5 - not tested on 2.7
@@ -42,7 +44,6 @@ def ocr_file(filename, overlay=False, api_key='61a8cd0dbb88957', language='eng')
 
     result=json.loads(result)
     return result['ParsedResults'][0]['ParsedText']
-
 
 def log(request):
     if 'username' in request.session:
@@ -107,14 +108,6 @@ def apiAddBlock(request):
     return JsonResponse({"User":received_json_data['user'], "Image": received_json_data['image'],"filename":unique_filename,"text":file_text})
     #return render(request, 'sfg/home.html')
 
-def transaction(request):
-	if request.method == 'POST':
-	    data = request.POST.get("data")
-	    blockchain.add_block(data)
-	    print ("New transaction"+data)
-	    print (blockchain.chain)
-	return render(request,"sfg/home.html",{})
-
 def dashboard(request):
     context={}
     return render(request,"sfg/home.html",context)
@@ -135,5 +128,7 @@ def upload(request):
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
         file_text = ocr_file(filename=uploaded_file_url[1:])
+        data={'title':caption,'image':uploaded_file_url,'text':file_text}
+        blockchain.add_block(data)
         return render(request, 'sfg/home.html', {'uploaded_file_url': uploaded_file_url,'file_text':file_text})
     return render(request, 'sfg/home.html')
