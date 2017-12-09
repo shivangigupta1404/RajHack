@@ -15,6 +15,17 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+
+# settings_dir = os.path.dirname(__file__)
+
+# PROJECT_ROOT = os.path.abspath(os.path.dirname(settings_dir))
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -25,11 +36,9 @@ SECRET_KEY = 'vzx8)w&%0$frwrs5ed1s%1ay3rlz9qgiz^0qqett7#5r6@qlry'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS =  ['localhost', '127.0.0.1', '[::1]', 'https://app.cohabitation95.hasura-app.io','*']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,13 +72,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'rajhack.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -115,8 +124,3 @@ USE_L10N = True
 USE_TZ = True
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20480000
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_URL = '/static/'
