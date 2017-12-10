@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 import json,requests,uuid
+from django.core import serializers
 
 import csv
 from sklearn.multiclass import OneVsOneClassifier
@@ -121,6 +122,22 @@ def dashboard(request):
 @login_required
 def view_chain(request):
     uname = User.objects.get(username=request.user.username)
+    #print(uname)
+
+    if uname.block_set.all:
+        object_list = serializers.serialize("python", uname.block_set.all())
+        #print(object_list)
+        #prediction_model()
+        #print(uname.block_set.all)
+        for block in object_list:
+            for txt,val in block.items.fields():
+                print(txt)
+                if(txt=='fields'):
+                    for k,v in txt:
+                        if k=='text':
+                            print("hh")
+                    #string+=val;
+
     return render(request,'sfg/view_chain.html',{'user':uname})
 
 @login_required
@@ -146,10 +163,9 @@ def add_block(request):
         return render(request, 'sfg/home.html', {'uploaded_file_url': uploaded_file_url,'file_text':file_text})
     return render(request, 'sfg/new_block.html')
 
-clf=clf = svm.SVC()
-def prediction_model(request):
-
-    filename='dataset/trainLabels.csv'
+clf=svm.SVC()
+def prediction_model():
+    filename='sfg/trainLabels.csv'
     names=['image','level']
     data = pandas.read_csv(filename, names=names)
     #print data
@@ -159,5 +175,6 @@ def prediction_model(request):
 
     clf.fit(X, y)
 
-def predict_user(request):
-    print clf.predict(request.data)
+#def predict_user(request):
+
+    #print clf.predict(request.data)
