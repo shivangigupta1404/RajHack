@@ -4,12 +4,19 @@ from django.http import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from sfg.feeds import *
-from sfg.forms import SignUpForm 
+from sfg.forms import SignUpForm
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 import json,requests,uuid
+
+import csv
+from sklearn.multiclass import OneVsOneClassifier
+from sklearn.svm import LinearSVC
+import pandas
+from sklearn import svm
+
 
 #miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
 #..................Login..................
@@ -121,7 +128,7 @@ def add_block(request):
     try:    #for python 2.7
         import sys
         reload(sys)
-        sys.setdefaultencoding('utf8')  
+        sys.setdefaultencoding('utf8')
     except:
         pass
     if request.method == 'POST' and request.FILES['myfile']:
@@ -138,3 +145,17 @@ def add_block(request):
         blockchain.add_block(data)
         return render(request, 'sfg/home.html', {'uploaded_file_url': uploaded_file_url,'file_text':file_text})
     return render(request, 'sfg/new_block.html')
+
+
+def prediction_model(request):
+
+    filename='trainLabels.csv'
+    names=['image','level']
+    data = pandas.read_csv(filename, names=names)
+    #print data
+    im=data.image
+    image=im.values.reshape(-1, 1)
+    X, y = image, data.level
+    clf = svm.SVC()
+    clf.fit(X, y)
+    
