@@ -119,24 +119,17 @@ def apiAddBlock(request):
 @login_required
 def dashboard(request):
     return render(request, 'sfg/home.html',{'user':request.user.username})
+
 @login_required
 def view_chain(request):
     uname = User.objects.get(username=request.user.username)
-    #print(uname)
-
-    if uname.block_set.all:
-        object_list = serializers.serialize("python", uname.block_set.all())
-        #print(object_list)
+    
+    if uname.block_set.all():
         #prediction_model()
-        #print(uname.block_set.all)
-        for block in object_list:
-            for txt,val in block.items.fields():
-                print(txt)
-                if(txt=='fields'):
-                    for k,v in txt:
-                        if k=='text':
-                            print("hh")
-                    #string+=val;
+        s=""
+        for b in uname.block_set.all():
+            s+=b.text;
+            print(s)
 
     return render(request,'sfg/view_chain.html',{'user':uname})
 
