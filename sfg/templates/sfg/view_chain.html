@@ -1,0 +1,41 @@
+{% extends "sfg/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}	
+<div class= "container">
+	<div class = "row">
+		<div class = "col-md-6 col-md-offset-3"> 
+			<div class = "taskdetails whitecard" >
+				<h3 align="center">
+					<span class="pull-left">
+						<form>
+							<button class="btn btn-default" id="backbutton" formaction = "{% url 'dashboard' %}" type="submit">
+								<i class=" glyphicon glyphicon-circle-arrow-left"></i>
+							</button>
+						</form>
+					</span>Your BlockChain
+				</h3> 
+				<div style="margin-top: 10px; margin-bottom: 15px;"></div>
+				{% if user.block_set.all %}
+				<table class = "taskpool">
+					<tr>
+						<th> Index </th>
+						<th> Title </th>
+						<th> Text </th>
+					</tr>
+					<tr>
+						{% for block in user.block_set.all %}
+						<td>{{block.index}} </td>
+						<td>{{ block.title }} </td>
+						<td>{{block.text}} </td>
+					</tr>
+					{% endfor %}
+				</table>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+</div>		
+{% endblock %}
