@@ -12,54 +12,14 @@ from django.contrib.auth.decorators import login_required
 import json,requests,uuid
 from django.core import serializers
 
-import csv
-import numpy
-from sklearn.multiclass import OneVsOneClassifier
-from sklearn.svm import LinearSVC
-import pandas
-from sklearn import svm
-
-
 #miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
 #..................Login..................
-
-def ocr_file(filename, overlay=False, api_key='61a8cd0dbb88957', language='eng'):
-    """ OCR.space API request with local file.
-      Python3.5 - not tested on 2.7
-    :param filename: Your file path & name.
-    :param overlay: Is OCR.space overlay required in your response.
-                  Defaults to False.
-    :param api_key: OCR.space API key.
-                  Defaults to 'helloworld'.
-    :param language: Language code to be used in OCR.
-                  List of available language codes can be found on https://ocr.space/OCRAPI
-                  Defaults to 'en'.
-    :return: Result in JSON format.
-    """
-
-    payload = {'isOverlayRequired': overlay,
-        'apikey': api_key,
-        'language': language,
-    }
-    filename=filename.replace('%20',' ')
-    with open(filename, 'rb') as f:
-        r = requests.post('https://api.ocr.space/parse/image',files={filename: f},data=payload,)
-
-    result=r.content.decode()
-    try: #for python 2.7
-        result.decode("utf-8")
-    except:
-        pass
-
-    result=json.loads(result)
-    return result['ParsedResults'][0]['ParsedText']
 
 def log(request):
     if 'username' in request.session:
         return HttpResponseRedirect('/sfg/dashboard/')
     else:
-        context = {
-        }
+        context = {}
         return render(request,'sfg/login.html',context)
 
 def login_next(request):
@@ -71,6 +31,7 @@ def login_next(request):
         return render(request, 'sfg/login.html', {'login_message' : 'Fill in all fields'})
     if user is not None:
         login(request, user)
+        predictDaemon()
         return HttpResponseRedirect('/sfg/dashboard')
     else:
         try:
@@ -134,7 +95,7 @@ def view_chain(request):
         st = s.split()
         print(st)
         if word in st:
-            p=prediction_model(int(st[st.index(word)+2]))
+            p=predict(int(st[st.index(word)+2]))
         return render(request,'sfg/view_chain.html',{'user':uname,'pred_level':p})
     else:
         return render(request,'sfg/view_chain.html',{'user':uname})
@@ -161,23 +122,3 @@ def add_block(request):
         blockchain.add_block(data)
         return render(request, 'sfg/home.html', {'uploaded_file_url': uploaded_file_url,'file_text':file_text})
     return render(request, 'sfg/new_block.html')
-
-clf=svm.SVC()
-def prediction_model(val):
-    #print(val)
-    filename='sfg/trainLabels.csv'
-    names=['image','level']
-    data = pandas.read_csv(filename, names=names)
-    #print data
-    im=data.image
-    image=im.values.reshape(-1, 1)
-    X, y = image, data.level
-
-    clf.fit(X, y)
-    pred=clf.predict(numpy.asarray(val))
-    print(pred)
-    return(pred)
-
-#def predict_user(request):
-
-    #print clf.predict(request.data)
