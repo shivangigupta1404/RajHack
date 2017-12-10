@@ -2,10 +2,10 @@
 
 {% block title %}Dashboard{% endblock %}
 
-{% block content %}	
+{% block content %}
 <div class= "container">
 	<div class = "row">
-		<div class = "col-md-6 col-md-offset-3"> 
+		<div class = "col-md-6 col-md-offset-3">
 			<div class = "taskdetails whitecard" >
 				<h3 align="center">
 					<span class="pull-left">
@@ -15,7 +15,7 @@
 							</button>
 						</form>
 					</span>Your BlockChain
-				</h3> 
+				</h3>
 				<div style="margin-top: 10px; margin-bottom: 15px;"></div>
 				{% if user.block_set.all %}
 				<table class = "taskpool">
@@ -35,7 +35,10 @@
 				{% endif %}
 			</div>
 		</div>
+		<h3>The predicted value of the diabetes level is:</h3>{{pred_level}}
+
 	</div>
+
 </div>
-</div>		
+</div>
 {% endblock %}

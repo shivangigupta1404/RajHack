@@ -13,6 +13,7 @@ import json,requests,uuid
 from django.core import serializers
 
 import csv
+import numpy
 from sklearn.multiclass import OneVsOneClassifier
 from sklearn.svm import LinearSVC
 import pandas
@@ -122,16 +123,22 @@ def dashboard(request):
 
 @login_required
 def view_chain(request):
+    p=-1
     uname = User.objects.get(username=request.user.username)
-    
+
     if uname.block_set.all():
-        #prediction_model()
         s=""
         for b in uname.block_set.all():
             s+=b.text;
-            print(s)
-
-    return render(request,'sfg/view_chain.html',{'user':uname})
+        st=[]
+        word='Image_level'
+        st = s.split()
+        print(st)
+        if word in st:
+            p=prediction_model(int(st[st.index(word)+2]))
+            return render(request,'sfg/view_chain.html',{'user':uname},{'pred_level':p})
+    else:
+        return render(request,'sfg/view_chain.html',{'user':uname})
 
 @login_required
 def add_block(request):
@@ -157,7 +164,8 @@ def add_block(request):
     return render(request, 'sfg/new_block.html')
 
 clf=svm.SVC()
-def prediction_model():
+def prediction_model(val):
+    #print(val)
     filename='sfg/trainLabels.csv'
     names=['image','level']
     data = pandas.read_csv(filename, names=names)
@@ -167,6 +175,9 @@ def prediction_model():
     X, y = image, data.level
 
     clf.fit(X, y)
+    pred=clf.predict(numpy.asarray(val))
+    print(pred)
+    return(pred)
 
 #def predict_user(request):
 
