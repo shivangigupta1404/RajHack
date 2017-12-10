@@ -4,9 +4,7 @@ from django.http import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from sfg.feeds import *
-from sfg.ocrfile import ocr_file
 from sfg.forms import SignUpForm
-from sfg.prediction import *
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage

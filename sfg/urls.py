@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from . import views
-from . import prediction
+from . import feeds
 
 urlpatterns = [
     url(r'^$',views.log, name='log'),
@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^view_chain/$',views.view_chain,name='view_chain'),
     ]
 
-prediction.prediction_model()
+feeds.prediction_model()
 
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
