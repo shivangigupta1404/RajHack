@@ -34,10 +34,26 @@
 				</table>
 				{% endif %}
 			</div>
+			<div style="margin-top: 10px; margin-bottom: 15px;"></div>
+				<table class = "taskpool">
+					<tr>
+						<th> <th><th> Summary<th><th></th><th></th> </th></th></th></th>
+					</tr>
+					<tr>
+						<td><em> Your</em> </td>
+						<td><em> Predicted</em></td>
+						<td> <em>score:</em></td>
+						<td><b> {{pred_level}}</b></td>
+					</tr>
+					<tr>
+						<td> 0: Negative</td>
+						<td> 1: Mild</td>
+						<td> 2: Moderate</td>
+						<td> 3: Strong</td>
+						<td> 4: Severe</td>
+					</tr>
+				</table>
+			</div>
 		</div>
-		<h3>The predicted value of the diabetes level is:</h3>{{pred_level}}
 	</div>
-
-</div>
-</div>
 {% endblock %}
