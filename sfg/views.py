@@ -1,4 +1,4 @@
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from __future__ import print_function
 from django.shortcuts import render,get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
@@ -108,11 +108,8 @@ def apiAddBlock(request):
     return JsonResponse({"User":received_json_data['user'], "Image": received_json_data['image'],"filename":unique_filename,"text":file_text})
     #return render(request, 'sfg/home.html')
 
+@login_required
 def dashboard(request):
-    context={}
-    return render(request,"sfg/home.html",context)
-
-def upload(request):
     try:    #for python 2.7
         import sys
         reload(sys)
@@ -120,15 +117,16 @@ def upload(request):
     except:
         pass
     if request.method == 'POST' and request.FILES['myfile']:
-        caption=request.POST.get("caption")
-        print(caption)
+        title=request.POST.get("caption")
         myfile = request.FILES['myfile']
-        print("name:"+myfile.name)
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        print (myfile.name)
+        unique_filename = str(uuid.uuid4())+'.jpg'
+        filename = fs.save(unique_filename, myfile)
         uploaded_file_url = fs.url(filename)
         file_text = ocr_file(filename=uploaded_file_url[1:])
-        data={'title':caption,'image':uploaded_file_url,'text':file_text}
+        username = request.user.username
+        data={'title':title,'image':uploaded_file_url,'text':file_text,'user':username}
         blockchain.add_block(data)
         return render(request, 'sfg/home.html', {'uploaded_file_url': uploaded_file_url,'file_text':file_text})
     return render(request, 'sfg/home.html')

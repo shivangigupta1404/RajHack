@@ -10,23 +10,23 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'sfg/css/bootstrap.min.css' %}" />
 </head>
 <body>
-		<h3>Application Homepage</h3>	
-		<a href="{% url 'logout' %}">Logout</a>
-		<div class="container ">
-			<div class="row">
-				<form method="post" enctype="multipart/form-data" action="{% url 'upload' %}">
-					{% csrf_token %}
-					Caption:<input type="text" name="caption"></br>
-					Report: <input type="file" name="myfile">
-					<button type="submit">Upload</button>
-				</form>
-				{% if uploaded_file_url %}
-				<p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-				{% endif %}
-				{% if file_text %}
-					<p>FILE TEXT: {{ file_text }}</p>
-				{% endif %}
-			</div>
+	<h3>Application Homepage</h3>	
+	<div class="container ">
+		<div class="row">
+			<form method="post" enctype="multipart/form-data" action="{% url 'dashboard' %}">
+				{% csrf_token %}
+				Caption:<input type="text" name="caption"></br>
+				Report: <input type="file" name="myfile">
+				<button type="submit">Upload</button>
+			</form>
+			{% if uploaded_file_url %}
+			<p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+			{% endif %}
+			{% if file_text %}
+			<p>FILE TEXT: {{ file_text }}</p>
+			{% endif %}
 		</div>
+		<a href="{% url 'logout' %}">Logout</a>
+	</div>
 </body>
 </html>
