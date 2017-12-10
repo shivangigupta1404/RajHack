@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Dashboard</title>
-	{% load staticfiles %}
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="{% static 'sfg/js/jquery-3.2.0.min.js' %}"></script>
-	<script src="{% static 'sfg/js/bootstrap.min.js' %}"></script>
-	<link rel="stylesheet" type="text/css" href="{% static 'sfg/css/bootstrap.min.css' %}" />
-</head>
-<body>
-	<h3>Application Homepage</h3>	
-	<div class="container ">
-		<div class="row">
-			<form method="post" enctype="multipart/form-data" action="{% url 'dashboard' %}">
-				{% csrf_token %}
-				Caption:<input type="text" name="caption"></br>
-				Report: <input type="file" name="myfile">
-				<button type="submit">Upload</button>
-			</form>
-			{% if uploaded_file_url %}
-			<p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-			{% endif %}
-			{% if file_text %}
-			<p>FILE TEXT: {{ file_text }}</p>
-			{% endif %}
+{% extends "sfg/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}	
+<div class= "container">
+	<div class = "row">
+		<div class = "col-md-6 col-md-offset-3"> 
+			<h2 align="center">Welcome {{user}}</h2>
+				
+			<div >
+				<div align="center"> 
+					<form>
+					<button formaction="{% url 'add_block' %}" class="btn btn-primary"> Add Block&nbsp;<span class="glyphicon glyphicon-plus"></span></button>		<button formaction="{% url 'view_chain' %}" class="btn btn-primary"> View Blockchain&nbsp; </button>
+					<button formaction="{% url 'logout' %}" class="btn btn-primary"> Logout&nbsp; <span class="glyphicon glyphicon-log-out"></span></button>
+					</form>
+				</div>
+				</div>
+			</div>
 		</div>
-		<a href="{% url 'logout' %}">Logout</a>
-	</div>
-</body>
-</html>
+	</div>		
+{% endblock %}

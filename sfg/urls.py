@@ -10,7 +10,8 @@ urlpatterns = [
     url(r'^signup/$',views.signup,name='signup'),
     url(r'^home/$',views.apiAddBlock,name='home'),
     url(r'^dashboard/$',views.dashboard,name='dashboard'),
-    #url(r'^upload/$',views.upload,name='upload'),
+    url(r'^add_block/$',views.add_block,name='add_block'),
+    url(r'^view_chain/$',views.view_chain,name='view_chain'),
     ]
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

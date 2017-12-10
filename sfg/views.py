@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from __future__ import print_function
 from django.shortcuts import render,get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
@@ -9,6 +8,7 @@ from sfg.forms import SignUpForm
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.decorators import login_required
 import json,requests,uuid
 
 #miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
@@ -110,6 +110,14 @@ def apiAddBlock(request):
 
 @login_required
 def dashboard(request):
+    return render(request, 'sfg/home.html',{'user':request.user.username})
+@login_required
+def view_chain(request):
+    uname = User.objects.get(username=request.user.username)
+    return render(request,'sfg/view_chain.html',{'user':uname})
+
+@login_required
+def add_block(request):
     try:    #for python 2.7
         import sys
         reload(sys)
@@ -129,4 +137,4 @@ def dashboard(request):
         data={'title':title,'image':uploaded_file_url,'text':file_text,'user':username}
         blockchain.add_block(data)
         return render(request, 'sfg/home.html', {'uploaded_file_url': uploaded_file_url,'file_text':file_text})
-    return render(request, 'sfg/home.html')
+    return render(request, 'sfg/new_block.html')
