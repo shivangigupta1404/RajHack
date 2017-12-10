@@ -146,16 +146,18 @@ def add_block(request):
         return render(request, 'sfg/home.html', {'uploaded_file_url': uploaded_file_url,'file_text':file_text})
     return render(request, 'sfg/new_block.html')
 
-
+clf=clf = svm.SVC()
 def prediction_model(request):
 
-    filename='trainLabels.csv'
+    filename='dataset/trainLabels.csv'
     names=['image','level']
     data = pandas.read_csv(filename, names=names)
     #print data
     im=data.image
     image=im.values.reshape(-1, 1)
     X, y = image, data.level
-    clf = svm.SVC()
+
     clf.fit(X, y)
-    
+
+def predict_user(request):
+    print clf.predict(request.data)
