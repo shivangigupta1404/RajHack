@@ -123,9 +123,8 @@ def dashboard(request):
 
 @login_required
 def view_chain(request):
-    p=-1
+    p=7
     uname = User.objects.get(username=request.user.username)
-
     if uname.block_set.all():
         s=""
         for b in uname.block_set.all():
@@ -136,7 +135,7 @@ def view_chain(request):
         print(st)
         if word in st:
             p=prediction_model(int(st[st.index(word)+2]))
-            return render(request,'sfg/view_chain.html',{'user':uname},{'pred_level':p})
+        return render(request,'sfg/view_chain.html',{'user':uname,'pred_level':p})
     else:
         return render(request,'sfg/view_chain.html',{'user':uname})
 
