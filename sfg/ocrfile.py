@@ -1,3 +1,5 @@
+import requests,json
+
 def ocr_file(filename, overlay=False, api_key='61a8cd0dbb88957', language='eng'):
     """ OCR.space API request with local file.
       Python3.5 - not tested on 2.7

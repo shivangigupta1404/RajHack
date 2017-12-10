@@ -4,12 +4,14 @@ from django.http import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from sfg.feeds import *
+from sfg.ocrfile import ocr_file
 from sfg.forms import SignUpForm
+from sfg.prediction import *
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
-import json,requests,uuid
+import json,uuid
 from django.core import serializers
 
 #miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
@@ -31,7 +33,6 @@ def login_next(request):
         return render(request, 'sfg/login.html', {'login_message' : 'Fill in all fields'})
     if user is not None:
         login(request, user)
-        predictDaemon()
         return HttpResponseRedirect('/sfg/dashboard')
     else:
         try:
