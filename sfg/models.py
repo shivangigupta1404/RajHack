@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 import hashlib as hasher
-#import base64
 
 class Block(models.Model):
         user = models.ForeignKey(User)

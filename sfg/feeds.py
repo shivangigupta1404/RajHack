@@ -1,10 +1,19 @@
 from .models import *
+<<<<<<< Updated upstream
 import datetime as date
 import csv,numpy,pandas
 from sklearn.multiclass import OneVsOneClassifier
 from sklearn.svm import LinearSVC
 from sklearn import svm
 from django.contrib.staticfiles.templatetags.staticfiles import static
+=======
+from sklearn.multiclass import OneVsOneClassifier
+from sklearn.svm import LinearSVC
+from sklearn import svm
+import json,requests
+import datetime as date
+import csv,numpy,pandas
+>>>>>>> Stashed changes
 
 class Blockchain:
   def create_genesis_block(self):
@@ -21,7 +30,6 @@ class Blockchain:
       sha.update(a.encode())
       b.hash=sha.hexdigest()
       b.save()
-      #image="/media/",text="random text",previous_hash=-1)
 
   def __init__(self):
     self.create_genesis_block()
@@ -75,7 +83,6 @@ def ocr_file(filename, overlay=False, api_key='61a8cd0dbb88957', language='eng')
                   Defaults to 'en'.
     :return: Result in JSON format.
     """
-
     payload = {'isOverlayRequired': overlay,
         'apikey': api_key,
         'language': language,
@@ -91,4 +98,24 @@ def ocr_file(filename, overlay=False, api_key='61a8cd0dbb88957', language='eng')
         pass
 
     result=json.loads(result)
+<<<<<<< Updated upstream
     return result['ParsedResults'][0]['ParsedText']
+=======
+    return result['ParsedResults'][0]['ParsedText']
+
+clf=svm.SVC()
+def prediction_model():
+    print("fitting model")
+    filename='sfg/trainLabels.csv'
+    names=['image','level']
+    data = pandas.read_csv(filename, names=names)
+    im=data.image
+    image=im.values.reshape(-1, 1)
+    X, y = image, data.level
+    clf.fit(X, y)
+    print("model is now fit")
+
+def predict(val):
+    pred=clf.predict(numpy.asarray(val))
+    return(pred)
+>>>>>>> Stashed changes
