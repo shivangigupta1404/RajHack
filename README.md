@@ -7,7 +7,7 @@ Also, dependencies on hospitals/doctors for maintainenance and retrieval of reco
 - A python blockchain in django is built.
 - A user can retrieve his/her blockchain of records.
 - Users login to the application and can then either add a new block by uploading their medical report either as an image or pdf.
-- Anew block can also be added via Android application that sends data directly to the application.
+- A new block can also be added via Android application that sends data directly to the application.
 - The information in the form of text is extracted by ocrAPI.
 - Prediction on the existing reports is done and a summary of the user's health can be viewed by the user.
 
